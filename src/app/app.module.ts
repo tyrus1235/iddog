@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { FeedComponent } from './feed/feed.component';
-import { PhotoComponent } from './photo/photo.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { FeedComponent } from './pages/feed/feed.component';
+import { PhotoComponent } from './pages/photo/photo.component';
 
 @NgModule({
   declarations: [

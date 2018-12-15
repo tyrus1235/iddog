@@ -1,0 +1,14 @@
+<div class="categories">
+  <p *ngFor="let category of categories; let i = index" [ngClass]="{'selected': chosenCategory[i]}" (click)="changeCategory(i)">
+    {{ category }}<span *ngIf="i < (categories.length-1)">&nbsp;/&nbsp;</span>
+  </p>
+</div>
+
+<div class="photos">
+  <div *ngFor="let image of images" class="picture">
+    <img [src]="image" />
+  </div>
+</div>
+
+<div id="modal-container" class="hidden"></div>
+<div id="overlay" (click)="removeModal()" class="hidden"></div>
