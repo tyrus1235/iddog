@@ -1,0 +1,5 @@
+<div class="signup-content">
+  <input type="email" class="signup-email" placeholder="your email" [(ngModel)]="email" required>
+  <p class="error-msg" *ngIf="showError">Email Inválido!</p>
+  <button class="signup-button" (click)="signUp()">LOGIN</button>
+</div>

@@ -1,0 +1,20 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 25px;
+
+    .title {
+        font-size: 30px;
+        letter-spacing: 3px;
+        font-family: 'Raleway';
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+}
