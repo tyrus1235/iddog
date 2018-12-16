@@ -26,6 +26,13 @@ export class SignUpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const self = this;
+
+    /** JWT salvo, obtido pela API. */
+    const token = localStorage.getItem('token');
+    if (token && token !== 'undefined' && token !== 'null') {
+      self.router.navigateByUrl('feed');
+    }
   }
 
   /**
