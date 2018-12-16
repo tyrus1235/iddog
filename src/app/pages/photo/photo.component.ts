@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,13 +18,19 @@ export class PhotoComponent implements OnInit {
   private sub: Subscription;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
     const self = this;
 
     self.chosenPhoto = localStorage.getItem('chosenPhoto');
+
+    if (!self.chosenPhoto || self.chosenPhoto === 'undefined' || self.chosenPhoto === 'null') {
+      localStorage.removeItem('token');
+      self.router.navigateByUrl('signup');
+    }
 
     self.sub = self.route.queryParams.subscribe(params => {
       self.id = parseInt(params['id']);

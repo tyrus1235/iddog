@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PhotoComponent } from '../photo/photo.component';
 
 /** Componente que representa a página de feed de fotos. */
@@ -42,7 +42,8 @@ export class FeedComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -105,6 +106,10 @@ export class FeedComponent implements OnInit {
           console.log('Request Response: ', response);
           if (self.http.status == 200) {
             self.images = response.list;
+          }
+          else {
+            localStorage.removeItem('token');
+            this.router.navigateByUrl('signup');
           }
         }
       };
