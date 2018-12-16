@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-photo',
@@ -7,9 +9,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PhotoComponent implements OnInit {
 
-  constructor() { }
+  public chosenPhoto: string = '';
+
+  public category: string = '';
+
+  public id: number = 0;
+
+  private sub: Subscription;
+
+  constructor(
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    const self = this;
+
+    self.chosenPhoto = localStorage.getItem('chosenPhoto');
+
+    self.sub = self.route.queryParams.subscribe(params => {
+      self.id = parseInt(params['id']);
+      self.category = params['category'];
+
+      console.log('self.id = '+self.id);
+      console.log('self.category = '+self.category);
+   });
+  }
+
+  ngOnDestroy() {
+    const self = this;
+
+    self.sub.unsubscribe();
   }
 
 }

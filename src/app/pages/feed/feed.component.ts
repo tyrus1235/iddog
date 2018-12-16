@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalService } from 'src/app/services/modal/modal.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { PhotoComponent } from '../photo/photo.component';
 
 /** Componente que representa a página de feed de fotos. */
 @Component({
@@ -18,6 +22,9 @@ export class FeedComponent implements OnInit {
     'husky', 'labrador', 'hound', 'pug'
   ];
 
+  /** Nome da categoria atual. */
+  private currCategory: string = 'husky';
+
   /** Vetor com todas as URLs das imagens requisitadas. */
   public images: Array<string> = [];
 
@@ -30,14 +37,26 @@ export class FeedComponent implements OnInit {
   /** Token de autenticação da API (JWT). */
   private token: string = '';
 
-  constructor() { }
+  /** Assinatura assíncrona para leitura dos parâmetros de query. */
+  private sub: Subscription;
+
+  constructor(
+    private modalService: ModalService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     const self = this;
 
     self.token = localStorage.getItem('token');
 
-    self.updatePhotos(self.categories[0]);
+    self.sub = self.route.queryParams.subscribe(params => {
+      self.currCategory = params && params['category'] ? params['category'] : 'husky';
+      
+      console.log('self.currCategory = '+self.currCategory);
+
+      self.changeCategory(self.categories.indexOf(self.currCategory));
+   });
   }
 
   /**
@@ -57,12 +76,18 @@ export class FeedComponent implements OnInit {
       }
       else {
         self.chosenCategory[i] = true;
+        self.currCategory = self.categories[i];
+        window.history.replaceState({}, null, '/feed?category='+self.currCategory);
       }
     }
 
     self.updatePhotos(self.categories[index]);
   }
 
+  /**
+   * Atualiza a listagem de fotos com as URLs recebidas da API.
+   * @param category Nome da categoria de fotos que serão obtidas.
+   */
   private updatePhotos(category: string): void {
     const self = this;
 
@@ -74,7 +99,9 @@ export class FeedComponent implements OnInit {
 
       self.http.onreadystatechange = () => {
         if (self.http.readyState == XMLHttpRequest.DONE) {
+          /** Resposta da requisição HTTP GET. */
           const response = JSON.parse(self.http.response);
+
           console.log('Request Response: ', response);
           if (self.http.status == 200) {
             self.images = response.list;
@@ -84,6 +111,16 @@ export class FeedComponent implements OnInit {
 
       self.http.send();
     }
+  }
+
+  public choosePhoto(id: number, photoURL: string): void {
+    const self = this;
+
+    localStorage.setItem('chosenPhoto', photoURL);
+    
+    window.history.replaceState({}, null, '/photo?category='+self.currCategory+'&id='+id);
+
+    self.modalService.init(PhotoComponent, null, null);
   }
 
 }

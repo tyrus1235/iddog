@@ -8,6 +8,9 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { FeedComponent } from './pages/feed/feed.component';
 import { PhotoComponent } from './pages/photo/photo.component';
 
+import { DomService } from './services/dom/dom.service';
+import { ModalService } from './services/modal/modal.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +23,10 @@ import { PhotoComponent } from './pages/photo/photo.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    DomService,
+    ModalService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

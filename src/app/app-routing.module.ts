@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { FeedComponent } from './feed/feed.component';
-import { PhotoComponent } from './photo/photo.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { FeedComponent } from './pages/feed/feed.component';
+import { PhotoComponent } from './pages/photo/photo.component';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     path: 'feed', component: FeedComponent
   },
   {
-    path: 'feed?:category&:id', component: PhotoComponent
+    path: 'photo', component: PhotoComponent
   },
   { path: '',
     redirectTo: '/signup',
